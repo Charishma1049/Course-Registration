@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Registration</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      font-size: 25px;
+      background: url('D:/npm/Course registration/MyApp/src/app/img.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #333;
+    }
+    form {
+      margin-bottom: 20px;
+    }
+    table {
+      width: 50%;
+      border-collapse: collapse;
+    }
+    table, th, td {
+      border: 2px solid black;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+    h1{
+        text-align:center;
+    }
+    label{
+        font-size:30px;
+    }
+    select, button {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;}
+    button {
+      background-color: yellow;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+      font-size:15px;
+      transition: transform 0.2s;
+    }
+    button:hover {
+      transform: scale(1.1);}
+    a {
+       text-decoration: none;
+      color: black;
+      background-color: yellow;
+      padding: 10px;
+      border-radius: 5px;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+    a:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <a href="D:\npm\Course registration\MyApp\src\app\index.html">Home</a>
+  <h1>Register Students</h1>
+
+  <form id="registrationForm">
+    <label>
+      Student Name:
+      <input type="text" id="studentNameInput" required>
+    </label>
+    <label>
+      Final Course:
+      <select id="finalCourseDropdown" required></select>
+    </label>
+    <button type="submit">Register</button>
+  </form>
+  <table>
+    <thead>
+      <tr>
+        <th>Student Name</th>
+        <th>Final Course</th>
+      </tr>
+    </thead>
+    <tbody id="registrationList"></tbody>
+  </table>
+
+  <script>
+    const finalCourses = JSON.parse(localStorage.getItem('finalCourses')) || [];
+    const registrations = [];
+
+    const registrationForm = document.getElementById('registrationForm');
+    const studentNameInput = document.getElementById('studentNameInput');
+    const finalCourseDropdown = document.getElementById('finalCourseDropdown');
+    const registrationList = document.getElementById('registrationList');
+
+    function populateDropdown() {
+      finalCourseDropdown.innerHTML = '<option value="">Select Final Course</option>';
+      finalCourses.forEach(course => {
+        finalCourseDropdown.innerHTML += `<option value="${course}">${course}</option>`;
+      });
+    }
+
+    registrationForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const student = studentNameInput.value.trim();
+      const finalCourse = finalCourseDropdown.value;
+      if (student && finalCourse) {
+        registrations.push({ student, finalCourse });
+        registrationList.innerHTML += `<tr><td>${student}</td><td>${finalCourse}</td></tr>`;
+        studentNameInput.value = '';
+      }
+    });
+
+    populateDropdown();
+  </script>
+</body>
+</html>

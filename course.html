@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Course Management</title>
+    <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      font-size: 21px;
+      background: url('D:/npm/Course registration/MyApp/src/app/img.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #333;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background-color: rgba(0, 123, 255, 0.9);
+      color: white;
+    }
+    header h1 {
+      margin: 0 auto; /* Center the heading */
+      text-align: center;
+      font-size: 2rem;
+      flex-grow: 1;
+    }
+    a {
+      text-decoration: none;
+      color: black;
+      background-color: yellow;
+      padding: 10px;
+      border-radius: 5px;
+      display: inline-block;
+      margin-bottom: 20px;
+      
+    }
+    a:hover {
+      background-color: #0056b3;
+    }
+    
+    main {
+      padding: 20px;
+    }
+    section {
+      margin: 20px auto;
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 600px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    h2 {
+      text-align: left;
+    }
+    h1 {
+      text-align: center;
+    }
+    form {
+      display: block;
+      gap: 50px;
+      margin-bottom: 20px;
+    }
+    input, button {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    button {
+      background-color: yellow;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    button:hover {
+      transform: scale(1.1);
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    ul li {
+      padding: 5px 0;
+      border-bottom: 1px solid #ddd;
+    }
+  </style>
+</head>
+<body>
+  <a  href="D:\npm\Course registration\MyApp\src\app\index.html">Home</a>
+  <h1 >Manage Course & Course Types</h1>
+
+  <!-- Course Type Section -->
+  <h2>Add Course Type</h2>
+  <form id="courseTypeForm">
+    <label>
+      Course Type:
+      <input type="text" id="courseTypeInput" required>
+    </label>
+    <button type="submit">Add Course Type</button>
+  </form>
+  <ul id="courseTypeList"></ul>
+
+  <!-- Course Section -->
+  <h2>Add Course</h2>
+  <form id="courseForm">
+    <label>
+      Course Name:
+      <input type="text" id="courseInput" required>
+    </label>
+    <button type="submit">Add Course</button>
+  </form>
+  <ul id="courseList"></ul>
+
+  <script>
+    const courseTypes = JSON.parse(localStorage.getItem('courseTypes')) || [];
+    const courses = JSON.parse(localStorage.getItem('courses')) || [];
+
+    const courseTypeForm = document.getElementById('courseTypeForm');
+    const courseForm = document.getElementById('courseForm');
+    const courseTypeList = document.getElementById('courseTypeList');
+    const courseList = document.getElementById('courseList');
+    const courseTypeInput = document.getElementById('courseTypeInput');
+    const courseInput = document.getElementById('courseInput');
+
+    // Initialize lists
+    function updateLists() {
+      courseTypeList.innerHTML = courseTypes.map(type => `<li>${type}</li>`).join('');
+      courseList.innerHTML = courses.map(course => `<li>${course}</li>`).join('');
+    }
+
+    // Add Course Type
+    courseTypeForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const type = courseTypeInput.value.trim();
+      if (type && !courseTypes.includes(type)) {
+        courseTypes.push(type);
+        localStorage.setItem('courseTypes', JSON.stringify(courseTypes));
+        updateLists();
+        courseTypeInput.value = '';
+      }
+    });
+
+    // Add Course
+    courseForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const course = courseInput.value.trim();
+      if (course && !courses.includes(course)) {
+        courses.push(course);
+        localStorage.setItem('courses', JSON.stringify(courses));
+        updateLists();
+        courseInput.value = '';
+      }
+    });
+
+    // Initialize UI with stored data
+    updateLists();
+  </script>
+</body>
+</html>

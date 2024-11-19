@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Final Courses</title>
+
+  <style>
+   body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      font-size: 26px;
+      background: url('D:/npm/Course registration/MyApp/src/app/img.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #333;
+    }
+    header {
+      text-align: center;
+      padding: 20px;
+      background-color: #007bff;
+      color: white;
+    }
+    h1 {
+      text-align: center;
+    }
+    main {
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+    section {
+      background-color: white;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    form {
+      display: inline-block;
+      flex-direction: row;
+      gap: 50px;
+    }
+    select, button {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    button {
+      background-color: yellow;
+      color: black;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    ul {
+      list-style-type: solid;
+      padding: 0;
+    }
+    ul li {
+      padding: 5px 0;
+      border-bottom: 1px solid #ddd;
+    }
+   a {
+      text-decoration: none;
+      color: black;
+      background-color: yellow;
+      padding: 10px;
+      border-radius: 5px;
+      display: inline-block;
+      margin-bottom: 20px;
+      
+    }
+    a:hover {
+      background-color: #0056b3;
+    }
+    
+  </style>
+</head>
+<body>
+  <a href="D:\npm\Course registration\MyApp\src\app\index.html">Home</a>
+  <h1>Create Final Courses</h1>
+
+  <!-- Combine Course Type and Course -->
+  <form id="finalCourseForm">
+    <label>
+      Course Type:
+      <select id="courseTypeDropdown" required></select>
+    </label>
+    <label>
+      Course:
+      <select id="courseDropdown" required></select>
+    </label>
+    <button type="submit">Create Final Course</button>
+  </form>
+  <ul id="finalCourseList"></ul>
+
+  <script>
+    const courseTypes = JSON.parse(localStorage.getItem('courseTypes')) || [];
+    const courses = JSON.parse(localStorage.getItem('courses')) || [];
+    const finalCourses = JSON.parse(localStorage.getItem('finalCourses')) || [];
+
+    const finalCourseForm = document.getElementById('finalCourseForm');
+    const courseTypeDropdown = document.getElementById('courseTypeDropdown');
+    const courseDropdown = document.getElementById('courseDropdown');
+    const finalCourseList = document.getElementById('finalCourseList');
+
+    // Populate dropdowns and list
+    function populateDropdowns() {
+      courseTypeDropdown.innerHTML = '<option value="">Select Course Type</option>';
+      courseDropdown.innerHTML = '<option value="">Select Course</option>';
+
+      courseTypes.forEach(type => {
+        courseTypeDropdown.innerHTML += `<option value="${type}">${type}</option>`;
+      });
+
+      courses.forEach(course => {
+        courseDropdown.innerHTML += `<option value="${course}">${course}</option>`;
+      });
+    }
+
+    function updateFinalCourseList() {
+      finalCourseList.innerHTML = finalCourses.map(course => `<li>${course}</li>`).join('');
+    }
+
+    // Add Final Course
+    finalCourseForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const type = courseTypeDropdown.value;
+      const course = courseDropdown.value;
+      const finalCourse = `${type}, ${course}`;
+      if (type && course && !finalCourses.includes(finalCourse)) {
+        finalCourses.push(finalCourse);
+        localStorage.setItem('finalCourses', JSON.stringify(finalCourses));
+        updateFinalCourseList();
+      }
+    });
+
+    // Initialize UI
+    populateDropdowns();
+    updateFinalCourseList();
+  </script>
+</body>
+</html>
